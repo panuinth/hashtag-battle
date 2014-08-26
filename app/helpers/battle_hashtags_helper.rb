@@ -1,0 +1,2 @@
+module BattleHashtagsHelper
+end

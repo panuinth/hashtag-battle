@@ -1,0 +1,27 @@
+<h1>Listing battle_hashtags</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hashtag</th>
+      <th>Battle</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @battle_hashtags.each do |battle_hashtag| %>
+      <tr>
+        <td><%= battle_hashtag.hashtag_id %></td>
+        <td><%= battle_hashtag.battle_id %></td>
+        <td><%= link_to 'Show', battle_hashtag %></td>
+        <td><%= link_to 'Edit', edit_battle_hashtag_path(battle_hashtag) %></td>
+        <td><%= link_to 'Destroy', battle_hashtag, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Battle hashtag', new_battle_hashtag_path %>

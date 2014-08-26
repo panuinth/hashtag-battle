@@ -1,0 +1,25 @@
+<%= form_for(@battle_hashtag) do |f| %>
+  <% if @battle_hashtag.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@battle_hashtag.errors.count, "error") %> prohibited this battle_hashtag from being saved:</h2>
+
+      <ul>
+      <% @battle_hashtag.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :hashtag_id %><br>
+    <%= f.number_field :hashtag_id %>
+  </div>
+  <div class="field">
+    <%= f.label :battle_id %><br>
+    <%= f.number_field :battle_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
