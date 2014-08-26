@@ -30,6 +30,14 @@ class BattlesController < ApplicationController
     #Insert hashtags into the battle
     @battle.add_hashtags(hashtags)
 
+    twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
+      if object.is_a?(Twitter::Tweet)
+        data = {"tweet" => "#{object.text}"}
+        puts "#{object.text}"
+        #$redis.publish("battle-#{@battle.id}", data.to_json )
+      end
+    end
+
     respond_to do |format|
       if @battle.save
         format.html { redirect_to @battle, notice: 'Battle was successfully created.' }

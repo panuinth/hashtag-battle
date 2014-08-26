@@ -13,4 +13,12 @@ class Battle < ActiveRecord::Base
       end
     end
   end
+
+  def hashtags_csv
+    result = []
+    hashtags.map(&:title).each do |hashtag|
+      result << "%23#{hashtag}"
+    end
+    return result.join(",")
+  end
 end
