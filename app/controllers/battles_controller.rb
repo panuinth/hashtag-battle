@@ -1,4 +1,6 @@
 class BattlesController < ApplicationController
+  include ActionController::Live
+
   before_action :set_battle, only: [:show, :edit, :update, :destroy]
 
   # GET /battles
@@ -34,7 +36,7 @@ class BattlesController < ApplicationController
       if object.is_a?(Twitter::Tweet)
         data = {"tweet" => "#{object.text}"}
         puts "#{object.text}"
-        #$redis.publish("battle-#{@battle.id}", data.to_json )
+        $redis.publish("battle-#{@battle.id}", data.to_json )
       end
     end
 
@@ -73,14 +75,31 @@ class BattlesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_battle
-      @battle = Battle.find(params[:id])
-    end
+  def events
+    response.headers["Content-Type"] = "text/event-stream"
+    redis = Redis.new
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def battle_params
-      params.require(:battle).permit(:name,:hashtags)
+    redis.psubscribe('battle-*') do |on|
+      on.pmessage do |pattern, event, data|
+        response.stream.write("event: #{event}\n")
+        response.stream.write("data: #{data}\n\n")
+      end
     end
+  rescue IOError
+    logger.info "Stream closed"
+  ensure
+    redis.quit
+    response.stream.close
+  end
+
+private
+# Use callbacks to share common setup or constraints between actions.
+def set_battle
+  @battle = Battle.find(params[:id])
+end
+
+# Never trust parameters from the scary internet, only allow the white list through.
+def battle_params
+  params.require(:battle).permit(:name,:hashtags)
+end
 end

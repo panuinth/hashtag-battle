@@ -39,3 +39,5 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 gem 'pg'
 gem 'twitter'
+gem 'redis'
+gem 'puma'
