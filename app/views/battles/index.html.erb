@@ -1,25 +1,12 @@
-<h1>Listing battles</h1>
+<h1>Hashtag Battle</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div id="brand">
+</div>
 
-  <tbody>
-    <% @battles.each do |battle| %>
-      <tr>
-        <td><%= battle.name %></td>
-        <td><%= link_to 'Show', battle %></td>
-        <td><%= link_to 'Edit', edit_battle_path(battle) %></td>
-        <td><%= link_to 'Destroy', battle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Battle', new_battle_path %>
+<%= form_for Battle.new, remote: true do |f| %>
+  <%= f.label :name %><br>
+  <%= f.text_field :name, placeholder: "Name of the battle" %><br>
+  <%= f.label :hashtags %><br>
+  <%= f.text_field :hashtags, :placeholder => "pepsi,coke", :value => "" %><br>
+  <%= f.submit "Send" %>
+<% end %>

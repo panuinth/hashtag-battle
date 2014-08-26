@@ -34,9 +34,16 @@ class BattlesController < ApplicationController
 
     twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
       if object.is_a?(Twitter::Tweet)
-        data = {"tweet" => "#{object.text}"}
+        keywords = []
+        @battle.hashtags.each do |hashtag|
+          keywords << hashtag.title if object.text.downcase.include?(hashtag.title)
+        end
         puts "#{object.text}"
-        $redis.publish("battle-#{@battle.id}", data.to_json )
+        puts "---------------------"
+        puts "#{keywords}"
+        data = {:tweet => "#{object.text}", :total_hashtag => @battle.hashtags.count, :keywords => keywords }
+
+        $redis.publish("battle.hashtag", data.to_json ) if keywords.count > 0
       end
     end
 
@@ -79,7 +86,7 @@ class BattlesController < ApplicationController
     response.headers["Content-Type"] = "text/event-stream"
     redis = Redis.new
 
-    redis.psubscribe('battle-*') do |on|
+    redis.psubscribe('battle.*') do |on|
       on.pmessage do |pattern, event, data|
         response.stream.write("event: #{event}\n")
         response.stream.write("data: #{data}\n\n")
