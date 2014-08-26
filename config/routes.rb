@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'flatuipro_demo/index'
+
   #resources :battle_hashtags
 
   #resources :hashtags

@@ -1,12 +1,33 @@
-<h1>Hashtag Battle</h1>
-
 <div id="brand">
 </div>
 
+<div class="login">
+  <div class="login-screen">
+    <div class="login-icon">
+      <img alt="Welcome to Mail App" src="images/login/icon.png">
+      <h4>Welcome to <small>Mail App</small></h4>
+    </div>
+
+    <div class="login-form">
+      <div class="form-group">
+        <input type="text" id="login-name" placeholder="Enter your name" value="" class="form-control login-field">
+        <label for="login-name" class="login-field-icon fui-user"></label>
+      </div>
+
+      <div class="form-group">
+        <div class="tagsinput " id="tagsinput_tagsinput" style="height: 100%;"><span class="tag"><span>Clean&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Fresh&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Modern&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Unique&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><div id="tagsinput_addTag" class="tagsinput-add-container"><div class="tagsinput-add"></div><input data-default="" value="" id="tagsinput_tag" style="color: rgb(102, 102, 102); width: 7px;"></div></div>
+        <label for="login-pass" class="login-field-icon fui-lock"></label>
+      </div>
+
+      <a href="#" class="btn btn-primary btn-lg btn-block">Log in</a>
+      <a href="#" class="login-link">Lost your password?</a>
+    </div>
+  </div>
+</div>
 <%= form_for Battle.new, remote: true do |f| %>
   <%= f.label :name %><br>
-  <%= f.text_field :name, placeholder: "Name of the battle" %><br>
-  <%= f.label :hashtags %><br>
-  <%= f.text_field :hashtags, :placeholder => "pepsi,coke", :value => "" %><br>
-  <%= f.submit "Send" %>
+<%= f.text_field :name, placeholder: "Name of the battle" %><br>
+<%= f.label :hashtags %><br>
+<%= f.text_field :hashtags, :placeholder => "pepsi,coke", :value => "" %><br>
+<%= f.submit "Send" %>
 <% end %>
