@@ -195,26 +195,44 @@
 /* Large desktop */
 @media (min-width: 1200px){
   body {margin-top:-40px;}
+  .battle{margin-bottom:77px;padding:38px 38px 267px;position:relative;}
+  .battle-screen{padding:40px;}
+  .battle-form{padding:40px;}
 }
 
 /* Small desktop */
 @media (min-width: 993px) and (max-width: 1199px){
   body {margin-top:-40px;}
-  .battle{background:url("/assets/images/imac.png") no-repeat;}
+  .battle{background:url("/assets/images/imac.png") no-repeat;margin-bottom:77px;padding:38px 38px 267px;position:relative;}
+  .battle-screen{padding:40px;}
+  .battle-form{padding:40px;}
 }
 
 /* Portrait tablet to landscape and desktop */
 @media (min-width: 768px) and (max-width: 992px){
+  .battle{margin-bottom:77px;padding:38px 38px 267px;position:relative;}
+  .battle-screen{padding:40px;}
+  .battle-form{padding:40px;}
 }
 
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px){
-
+  .battle{margin-bottom:77px;padding:38px 38px 267px;position:relative;}
+  .battle-screen{padding:40px;}
+  .battle-form{padding:40px;}
 }
 
 /* Landscape phones and down */
 @media (max-width: 480px){
   /*body {margin-top:-40px;}*/
+  body .container{padding:0}
+  .navbar{margin-bottom:0;}
+  .battle{padding:0;}
+  .battle-screen{padding:0px;}
+  .battle-form{padding:40px 20px;}
+  .battle h4{font-size:20px;text-align:center;padding:30px 0 20px 0;}
+  /*.battle-form{padding-top:40px;}*/
+
 }
 
 
@@ -227,16 +245,12 @@
 footer{background:#2c3e50;}
 footer .container{padding:20px;min-height:0;}
 
-.battle{color: #ffffff;margin-bottom:77px;padding:38px 38px 267px;position:relative;}
-.battle-screen { background-color: #1abc9c; min-height: 473px; padding: 40px; }
-.battle-screen h4{margin-top:0;}
+.battle{color: #ffffff;}
+.battle-screen { background-color: #1abc9c; min-height: 473px; }
+.battle-screen h4{margin-top:0;margin-bottom:20px;}
 
-.battle-form .login-field, {
-    border-color: transparent;
-    font-size: 17px;
-    text-indent: 3px;
-}
-.battle-form{background:#edeff1;padding:40px;}
+.battle-form .login-field, { border-color: transparent; font-size: 17px; text-indent: 3px; }
+.battle-form{background:#edeff1;}
 .battle-form .login-field:focus{border-color:@turquoise;}
 .battle-form .login-field-icon { color: #bfc9ca; font-size: 16px; position: absolute; right: 15px; top: 3px; transition: all 0.25s ease 0s; }
 .battle-form .login-field:focus + .login-field-icon{color:@turquoise;}
