@@ -200,6 +200,7 @@
 /* Small desktop */
 @media (min-width: 993px) and (max-width: 1199px){
   body {margin-top:-40px;}
+  .battle{background:url("/assets/images/imac.png") no-repeat;}
 }
 
 /* Portrait tablet to landscape and desktop */
@@ -226,4 +227,23 @@
 footer{background:#2c3e50;}
 footer .container{padding:20px;min-height:0;}
 
-.login{background:url("/assets/images/imac.png") no-repeat;color: #ffffff;margin-bottom:77px;padding:38px 38px 267px;position:relative;}
+.battle{color: #ffffff;margin-bottom:77px;padding:38px 38px 267px;position:relative;}
+.battle-screen { background-color: #1abc9c; min-height: 473px; padding: 40px; }
+.battle-screen h4{margin-top:0;}
+
+.battle-form .login-field, {
+    border-color: transparent;
+    font-size: 17px;
+    text-indent: 3px;
+}
+.battle-form{background:#edeff1;padding:40px;}
+.battle-form .login-field:focus{border-color:@turquoise;}
+.battle-form .login-field-icon { color: #bfc9ca; font-size: 16px; position: absolute; right: 15px; top: 3px; transition: all 0.25s ease 0s; }
+.battle-form .login-field:focus + .login-field-icon{color:@turquoise;}
+.battle-form .tagsinput input:focus + .login-field-icon{color:@turquoise;}
+.form-group.focus .form-control, .form-control:focus{border-color:@turquoise;}
+
+/*.tagsinput{border-color: transparent;}*/
+/*.tagsinput:focus{border-color:@turquoise;}*/
+/*.tagsinput input{width:100px;}*/
+/*#tagsinput_tagsinput_tagsinput{border-color: transparent;}*/
