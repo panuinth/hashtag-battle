@@ -246,6 +246,22 @@ footer{background:#2c3e50;}
 footer .container{padding:20px;min-height:0;}
 
 /*Spinner*/
+.loading-bg
+{
+			height:100%;
+			width:100%;
+      display:none;
+			position:fixed;
+			left:0;
+			top:0;
+			z-index:1 !important;
+			background-color:black;
+      filter: alpha(opacity=50); /* internet explorer */
+      -khtml-opacity: 0.5;      /* khtml, old safari */
+      -moz-opacity: 0.5;       /* mozilla, netscape */
+      opacity: 0.5;           /* fx, safari, opera */
+}
+.loading-text{font-size: 20px; width: .2em; height: .2em; position: absolute;left:12%;top:104%;color:#fff}
 .spinner {
     /* Size and position */
     display:none;
@@ -413,21 +429,7 @@ footer .container{padding:20px;min-height:0;}
     91.0% { opacity: 0.87; }
 }
 
-.loading-bg
-{
-			height:100%;
-			width:100%;
-      display:none;
-			position:fixed;
-			left:0;
-			top:0;
-			z-index:1 !important;
-			background-color:black;
-      filter: alpha(opacity=50); /* internet explorer */
-      -khtml-opacity: 0.5;      /* khtml, old safari */
-      -moz-opacity: 0.5;       /* mozilla, netscape */
-      opacity: 0.5;           /* fx, safari, opera */
-}
+
 .battle{color: #ffffff;}
 .battle-screen { background-color: #1abc9c; min-height: 473px; }
 .battle-screen h4{margin-top:0;margin-bottom:20px;}
