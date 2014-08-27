@@ -28,35 +28,33 @@ class BattlesController < ApplicationController
   def create
     #Convert comma seprated value into an array
     hashtags = battle_params[:hashtags].split(',')
-    @battle = Battle.create(name: battle_params[:name])
-    #Insert hashtags into the battle
-    @battle.add_hashtags(hashtags)
-    $redis = Redis.new(:host => Rails.application.config.redis_host, :port => Rails.application.config.redis_port, :password => Rails.application.config.redis_password, :thread_safe => true)
+    @battle = Battle.new(name: battle_params[:name])
+    if @battle.save
 
-    twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
-      if object.is_a?(Twitter::Tweet)
-        keywords = []
-        @battle.hashtags.each do |hashtag|
-          keywords << hashtag.title if object.text.downcase.include?(hashtag.title)
+      #Insert hashtags into the battle
+      @battle.add_hashtags(hashtags)
+
+      $redis = Redis.new(:host => Rails.application.config.redis_host, :port => Rails.application.config.redis_port, :password => Rails.application.config.redis_password, :thread_safe => true)
+
+      #Pull data from twitter streaming api
+      twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
+        #Check if it's a tweet object
+        if object.is_a?(Twitter::Tweet)
+          keywords = []
+          #Iterate hashtags to check if any tweet match
+          @battle.hashtags.each do |hashtag|
+            #Assign to keyword if match
+            keywords << hashtag.title if object.text.downcase.include?(hashtag.title_with_hashtag)
+          end
+          data = {:tweet => "#{object.text}", :total_hashtag => @battle.hashtags.count, :keywords => keywords }
+          $redis.publish("battle:hashtag:#{@battle.id}", data.to_json ) if keywords.count > 0
         end
-        puts "#{object.text}"
-        puts "---------------------"
-        puts "#{keywords}"
-        data = {:tweet => "#{object.text}", :total_hashtag => @battle.hashtags.count, :keywords => keywords }
-
-        $redis.publish("battle.hashtag", data.to_json ) if keywords.count > 0
       end
+    render :json => {:status=>"success"}, :status=>200
+    else
+      render :json => {:status=> :unprocessable_entity, :error => @battle.errors }, :status=>422
     end
 
-    respond_to do |format|
-      if @battle.save
-        format.html { redirect_to @battle, notice: 'Battle was successfully created.' }
-        format.json { render :show, status: :created, location: @battle }
-      else
-        format.html { render :new }
-        format.json { render json: @battle.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /battles/1
@@ -88,10 +86,11 @@ class BattlesController < ApplicationController
 
     $redis = Redis.new(:host => Rails.application.config.redis_host, :port => Rails.application.config.redis_port, :password => Rails.application.config.redis_password, :thread_safe => true)
 
-    $redis.psubscribe('battle.hashtag') do |on|
+    $redis.psubscribe("battle:hashtag:*") do |on|
       on.pmessage do |pattern, event, data|
         response.stream.write("event: #{event}\n")
         response.stream.write("data: #{data}\n\n")
+        sleep 0.0001 # HACK: Prevent server instance from sleeping forever if client disconnects
       end
     end
   rescue IOError

@@ -64,6 +64,7 @@ $(function() {
 
      $.post( "/battles", $( "#new_battle" ).serialize() )
       .done(function( data ) {
+        console.debug(data);
         $(".spinner").fadeOut("slow");
         $(".loading-bg").fadeOut("slow");
       });
@@ -73,7 +74,8 @@ $(function() {
 
   //Streaming data from twitter api
   var source = new EventSource('/battles/events');
-  source.addEventListener('battle.hashtag', function(e) {
+  var battleId = $("#battle-id").val();
+  source.addEventListener("battle:hashtag:"+ battleId, function(e) {
     $(".battle").hide();
     $(".container").width("auto");
 
