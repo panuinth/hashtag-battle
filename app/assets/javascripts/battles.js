@@ -44,6 +44,21 @@ $(function() {
   //Add loading icon after submit
   $(".battle-form .battle-submit").on("click",function(e) {
     e.preventDefault();
+
+    var errorMessage = "";
+
+    if ($("#battle_name").val() == ""){
+      errorMessage += "Battle name cannot be blank.\n";
+    }
+
+    if ($("#battle_hashtags").val() == ""){
+      errorMessage += "Please put at least 1 hashtag.\n";
+    }
+
+    if (errorMessage != ""){
+      alert(errorMessage);
+    } else {
+
     $(".spinner").fadeIn("slow");
     $(".loading-bg").fadeIn("slow");
 
@@ -52,6 +67,7 @@ $(function() {
         $(".spinner").fadeOut("slow");
         $(".loading-bg").fadeOut("slow");
       });
+    }
 
   });
 

@@ -1,19 +1,19 @@
 <div class="battle">
   <div class="battle-screen">
-    <div class="login-icon">
+    <div>
       <h4>Welcome to <small>Hashtag Battle</small></h4>
     </div>
 
     <div class="battle-form">
       <div class="form-group">
         <%= form_for Battle.new, remote: true do |f| %>
-          <%= f.text_field :name, placeholder: "Name of the battle", :class => "form-control login-field", :id => "login-name" %>
-        <label for="login-name" class="login-field-icon fui-new"></label>
+          <%= f.text_field :name, placeholder: "Name of the battle", :class => "form-control battle-field" %>
+        <label class="battle-field-icon fui-new"></label>
       </div>
 
       <div class="form-group">
-        <%= f.text_field :hashtags, :placeholder => "pepsi,coke", :value => "", :class => "tagsinput login-field" %>
-        <label for="login-pass" class="login-field-icon fui-search"></label>
+        <%= f.text_field :hashtags, :placeholder => "pepsi,coke", :value => "", :class => "tagsinput battle-field" %>
+        <label class="battle-field-icon fui-search"></label>
       </div>
 
       <%= f.submit 'Battle!', :class => 'btn btn-primary btn-lg btn-block battle-submit' %>
