@@ -19,16 +19,9 @@
         <label for="login-pass" class="login-field-icon fui-search"></label>
       </div>
 
-      <%= f.submit 'Battle!', :class => 'btn btn-primary btn-lg btn-block' %>
-      <% end %>
+      <%= f.submit 'Battle!', :class => 'btn btn-primary btn-lg btn-block battle-submit' %>
+    <% end %>
 
     </div>
   </div>
 </div>
-<%= form_for Battle.new, remote: true do |f| %>
-  <%= f.label :name %><br>
-<%= f.text_field :name, placeholder: "Name of the battle" %><br>
-<%= f.label :hashtags %><br>
-<%= f.text_field :hashtags, :placeholder => "pepsi,coke", :value => "" %><br>
-<%= f.submit "Send" %>
-<% end %>
