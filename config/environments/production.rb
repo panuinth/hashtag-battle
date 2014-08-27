@@ -85,7 +85,8 @@ Rails.application.configure do
   config.twitter_access_token = "280079080-mrZoBxfANlVrIk4uMEQaTATArYfwlNlZW9U5dxta"
   config.twitter_access_token_secret = "Wkn1PBAGgTCvsJqpStKeopkFjX080mNrf82AunzC6MgX1"
 
-  ENV["REDISTOGO_URL"] = 'redis://redistogo:f7364788ac166bf2f194e8dc745ba443@hoki.redistogo.com:10826'
-
+  config.redis_host = "hoki.redistogo.com"
+  config.redis_password = "f7364788ac166bf2f194e8dc745ba443"
+  config.redis_port = "10826"
 
 end

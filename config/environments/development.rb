@@ -42,5 +42,8 @@ Rails.application.configure do
   config.twitter_access_token = "280079080-mrZoBxfANlVrIk4uMEQaTATArYfwlNlZW9U5dxta"
   config.twitter_access_token_secret = "Wkn1PBAGgTCvsJqpStKeopkFjX080mNrf82AunzC6MgX1"
 
-  ENV["REDISTOGO_URL"] = 'redis://localhost:6379'
+  config.redis_host = "localhost"
+  config.redis_password = ""
+  config.redis_port = "6379"
+
 end

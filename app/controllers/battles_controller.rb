@@ -31,6 +31,7 @@ class BattlesController < ApplicationController
     @battle = Battle.create(name: battle_params[:name])
     #Insert hashtags into the battle
     @battle.add_hashtags(hashtags)
+    $redis = Redis.new(:host => config.redis_host, :port => config.redis_port, :password => config.redis_password, :thread_safe => true)
 
     twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
       if object.is_a?(Twitter::Tweet)
@@ -85,7 +86,9 @@ class BattlesController < ApplicationController
   def events
     response.headers["Content-Type"] = "text/event-stream"
 
-    $redis.psubscribe('battle.*') do |on|
+    $redis = Redis.new(:host => config.redis_host, :port => config.redis_port, :password => config.redis_password, :thread_safe => true)
+
+    $redis.psubscribe('battle.hashtag') do |on|
       on.pmessage do |pattern, event, data|
         response.stream.write("event: #{event}\n")
         response.stream.write("data: #{data}\n\n")
