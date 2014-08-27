@@ -231,12 +231,7 @@
   .battle-screen{padding:0px;}
   .battle-form{padding:40px 20px;}
   .battle h4{font-size:20px;text-align:center;padding:30px 0 20px 0;}
-  /*.battle-form{padding-top:40px;}*/
-
 }
-
-
-/*body{margin:0;}*/
 
 /*Navbar*/
 .navbar-inverse{border-radius:0;}
@@ -245,191 +240,7 @@
 footer{background:#2c3e50;}
 footer .container{padding:20px;min-height:0;}
 
-/*Spinner*/
-.loading-bg
-{
-			height:100%;
-			width:100%;
-      display:none;
-			position:fixed;
-			left:0;
-			top:0;
-			z-index:1 !important;
-			background-color:black;
-      filter: alpha(opacity=50); /* internet explorer */
-      -khtml-opacity: 0.5;      /* khtml, old safari */
-      -moz-opacity: 0.5;       /* mozilla, netscape */
-      opacity: 0.5;           /* fx, safari, opera */
-}
-.loading-text{font-size: 20px; width: .2em; height: .2em; position: absolute;left:12%;top:104%;color:#fff}
-.spinner {
-    /* Size and position */
-    display:none;
-    font-size: 100px; /* 1em */
-    width: 1em;
-    height: 1em;
-    margin: 280px auto;
-    position: relative;
- 
-    /* Styles */
-    list-style: none;
-    border-radius: 50%;
-    background: #ECF0F1;
-    z-index:2;
-    /*border: .01em solid rgba(150,150,150,1); [> Subtle white line circling the dots <]*/
-}
-.spinner li {
-    width: .2em;
-    height: .2em;
-    position: absolute;
-    border-radius: 50%;
-}
-
-.spinner li:nth-child(1) {
-    left: 50%;
-    top: 0;
-    margin: 0 0 0 -.1em;
-    background: @turquoise;
-    -webkit-transform-origin: 50% 250%;
-    -moz-transform-origin: 50% 250%;
-    -ms-transform-origin: 50% 250%;
-    -o-transform-origin: 50% 250%;
-    transform-origin: 50% 250%;
-    -webkit-animation: 
-        rota 1.13s linear infinite,
-        opa 3.67s ease-in-out infinite alternate;
-    -moz-animation: 
-        rota 1.13s linear infinite,
-        opa 3.67s ease-in-out infinite alternate;
-    -ms-animation: 
-        rota 1.13s linear infinite,
-        opa 3.67s ease-in-out infinite alternate;
-    -o-animation: 
-        rota 1.13s linear infinite,
-        opa 3.67s ease-in-out infinite alternate;
-    animation: 
-        rota 1.13s linear infinite,
-        opa 3.67s ease-in-out infinite alternate;
-}
-
-.spinner li:nth-child(2) {
-    top: 50%; 
-    right: 0;
-    margin: -.1em 0 0 0;
-    background: @wet-asphalt;
-    -webkit-transform-origin: -150% 50%;
-    -moz-transform-origin: -150% 50%;
-    -ms-transform-origin: -150% 50%;
-    -o-transform-origin: -150% 50%;
-    transform-origin: -150% 50%;
-    -webkit-animation: 
-        rota 1.86s linear infinite,
-        opa 4.29s ease-in-out infinite alternate;
-    -moz-animation: 
-        rota 1.86s linear infinite,
-        opa 4.29s ease-in-out infinite alternate;
-    -ms-animation: 
-        rota 1.86s linear infinite,
-        opa 4.29s ease-in-out infinite alternate;
-    -o-animation: 
-        rota 1.86s linear infinite,
-        opa 4.29s ease-in-out infinite alternate;
-    animation: 
-        rota 1.86s linear infinite,
-        opa 4.29s ease-in-out infinite alternate;
-}
-
-@-webkit-keyframes rota {
-    to { -webkit-transform: rotate(360deg); }
-}
-
-@-moz-keyframes rota {
-    to { -moz-transform: rotate(360deg); }
-}
-
-@-ms-keyframes rota {
-    to { -ms-transform: rotate(360deg); }
-}
-
-@-o-keyframes rota {
-    to { -o-transform: rotate(360deg); }
-}
-
-@keyframes rota {
-    to { transform: rotate(360deg); }
-}
-
-@-webkit-keyframes opa {
-    12.0% { opacity: 0.80; }
-    19.5% { opacity: 0.88; }
-    37.2% { opacity: 0.64; }
-    40.5% { opacity: 0.52; }
-    52.7% { opacity: 0.69; }
-    60.2% { opacity: 0.60; }
-    66.6% { opacity: 0.52; }
-    70.0% { opacity: 0.63; }
-    79.9% { opacity: 0.60; }
-    84.2% { opacity: 0.75; }
-    91.0% { opacity: 0.87; }
-}
-
-@-moz-keyframes opa {
-    12.0% { opacity: 0.80; }
-    19.5% { opacity: 0.88; }
-    37.2% { opacity: 0.64; }
-    40.5% { opacity: 0.52; }
-    52.7% { opacity: 0.69; }
-    60.2% { opacity: 0.60; }
-    66.6% { opacity: 0.52; }
-    70.0% { opacity: 0.63; }
-    79.9% { opacity: 0.60; }
-    84.2% { opacity: 0.75; }
-    91.0% { opacity: 0.87; }
-}
-
-@-ms-keyframes opa {
-    12.0% { opacity: 0.80; }
-    19.5% { opacity: 0.88; }
-    37.2% { opacity: 0.64; }
-    40.5% { opacity: 0.52; }
-    52.7% { opacity: 0.69; }
-    60.2% { opacity: 0.60; }
-    66.6% { opacity: 0.52; }
-    70.0% { opacity: 0.63; }
-    79.9% { opacity: 0.60; }
-    84.2% { opacity: 0.75; }
-    91.0% { opacity: 0.87; }
-}
-
-@-o-keyframes opa {
-    12.0% { opacity: 0.80; }
-    19.5% { opacity: 0.88; }
-    37.2% { opacity: 0.64; }
-    40.5% { opacity: 0.52; }
-    52.7% { opacity: 0.69; }
-    60.2% { opacity: 0.60; }
-    66.6% { opacity: 0.52; }
-    70.0% { opacity: 0.63; }
-    79.9% { opacity: 0.60; }
-    84.2% { opacity: 0.75; }
-    91.0% { opacity: 0.87; }
-}
-
-@keyframes opa {
-    12.0% { opacity: 0.80; }
-    19.5% { opacity: 0.88; }
-    37.2% { opacity: 0.64; }
-    40.5% { opacity: 0.52; }
-    52.7% { opacity: 0.69; }
-    60.2% { opacity: 0.60; }
-    66.6% { opacity: 0.52; }
-    70.0% { opacity: 0.63; }
-    79.9% { opacity: 0.60; }
-    84.2% { opacity: 0.75; }
-    91.0% { opacity: 0.87; }
-}
-
-
+/*Battle form*/
 .battle{color: #ffffff;}
 .battle-screen { background-color: #1abc9c; min-height: 473px; }
 .battle-screen h4{margin-top:0;margin-bottom:20px;}
@@ -442,7 +253,43 @@ footer .container{padding:20px;min-height:0;}
 .battle-form .tagsinput input:focus + .login-field-icon{color:@turquoise;}
 .form-group.focus .form-control, .form-control:focus{border-color:@turquoise;}
 
-/*.tagsinput{border-color: transparent;}*/
-/*.tagsinput:focus{border-color:@turquoise;}*/
-/*.tagsinput input{width:100px;}*/
-/*#tagsinput_tagsinput_tagsinput{border-color: transparent;}*/
+/*Wall hashtag output layout*/
+.free-wall { margin: auto; }
+.size2-2 { width: 320px; height: 160px; }
+.size11 { height: 360px; width: 320px; }
+.size12 { width: 320px; height: 320px; }
+.size21 { width: 320px; height: 160px; }
+.size22 { height: 320px; width: 320px; }
+.size13 { width: 320px; height: 480px; }
+.size31 { width: 480px; height: 160px; }
+.size23 { width: 320px; height: 320px; }
+.size24 { width: 320px; height: 160px; }
+.size32 { width: 480px; height: 320px; }
+.size33 { width: 480px; height: 480px; }
+.size34 { width: 480px; height: 160px; }
+.size43 { width: 640px; height: 320px; }
+.size35 { width: 480px; height: 160px; }
+.size53 { width: 800px; height: 320px; }
+.size36 { width: 480px; height: 160px; }
+.brick { background-color: white; float: left; cursor: default; overflow: hidden; background-repeat: no-repeat; background-size: cover; background-position: center; }
+.brick .cover { overflow: hidden; margin: 20px; }
+
+/*Loading icon*/
+.loading-bg { height:100%; width:100%; display:none; position:fixed; left:0; top:0; z-index:1 !important; background-color:black; filter: alpha(opacity=50); /* internet explorer */ -khtml-opacity: 0.5;      /* khtml, old safari */ -moz-opacity: 0.5;       /* mozilla, netscape */ opacity: 0.5;           /* fx, safari, opera */ }
+.loading-text{font-size: 20px; width: .2em; height: .2em; position: absolute;left:12%;top:104%;color:#fff}
+.spinner { /* Size and position */ display:none; font-size: 100px; /* 1em */ width: 1em; height: 1em; margin: 280px auto; position: relative; /* Styles */ list-style: none; border-radius: 50%; background: #ECF0F1; z-index:2; /*border: .01em solid rgba(150,150,150,1); [> Subtle white line circling the dots <]*/ }
+.spinner li { width: .2em; height: .2em; position: absolute; border-radius: 50%; }
+.spinner li:nth-child(1) { left: 50%; top: 0; margin: 0 0 0 -.1em; background: @turquoise; -webkit-transform-origin: 50% 250%; -moz-transform-origin: 50% 250%; -ms-transform-origin: 50% 250%; -o-transform-origin: 50% 250%; transform-origin: 50% 250%; -webkit-animation: rota 1.13s linear infinite, opa 3.67s ease-in-out infinite alternate; -moz-animation: rota 1.13s linear infinite, opa 3.67s ease-in-out infinite alternate; -ms-animation: rota 1.13s linear infinite, opa 3.67s ease-in-out infinite alternate; -o-animation: rota 1.13s linear infinite, opa 3.67s ease-in-out infinite alternate; animation: rota 1.13s linear infinite, opa 3.67s ease-in-out infinite alternate; }
+.spinner li:nth-child(2) { top: 50%; right: 0; margin: -.1em 0 0 0; background: @wet-asphalt; -webkit-transform-origin: -150% 50%; -moz-transform-origin: -150% 50%; -ms-transform-origin: -150% 50%; -o-transform-origin: -150% 50%; transform-origin: -150% 50%; -webkit-animation: rota 1.86s linear infinite, opa 4.29s ease-in-out infinite alternate; -moz-animation: rota 1.86s linear infinite, opa 4.29s ease-in-out infinite alternate; -ms-animation: rota 1.86s linear infinite, opa 4.29s ease-in-out infinite alternate; -o-animation: rota 1.86s linear infinite, opa 4.29s ease-in-out infinite alternate; animation: rota 1.86s linear infinite, opa 4.29s ease-in-out infinite alternate; }
+/*Define keyframes for lading icon*/
+@-webkit-keyframes rota { to { -webkit-transform: rotate(360deg); } }
+@-moz-keyframes rota { to { -moz-transform: rotate(360deg); } }
+@-ms-keyframes rota { to { -ms-transform: rotate(360deg); } }
+@-o-keyframes rota { to { -o-transform: rotate(360deg); } }
+@keyframes rota { to { transform: rotate(360deg); } }
+@-webkit-keyframes opa { 12.0% { opacity: 0.80; } 19.5% { opacity: 0.88; } 37.2% { opacity: 0.64; } 40.5% { opacity: 0.52; } 52.7% { opacity: 0.69; } 60.2% { opacity: 0.60; } 66.6% { opacity: 0.52; } 70.0% { opacity: 0.63; } 79.9% { opacity: 0.60; } 84.2% { opacity: 0.75; } 91.0% { opacity: 0.87; } }
+@-moz-keyframes opa { 12.0% { opacity: 0.80; } 19.5% { opacity: 0.88; } 37.2% { opacity: 0.64; } 40.5% { opacity: 0.52; } 52.7% { opacity: 0.69; } 60.2% { opacity: 0.60; } 66.6% { opacity: 0.52; } 70.0% { opacity: 0.63; } 79.9% { opacity: 0.60; } 84.2% { opacity: 0.75; } 91.0% { opacity: 0.87; } }
+@-ms-keyframes opa { 12.0% { opacity: 0.80; } 19.5% { opacity: 0.88; } 37.2% { opacity: 0.64; } 40.5% { opacity: 0.52; } 52.7% { opacity: 0.69; } 60.2% { opacity: 0.60; } 66.6% { opacity: 0.52; } 70.0% { opacity: 0.63; } 79.9% { opacity: 0.60; } 84.2% { opacity: 0.75; } 91.0% { opacity: 0.87; } }
+@-o-keyframes opa { 12.0% { opacity: 0.80; } 19.5% { opacity: 0.88; } 37.2% { opacity: 0.64; } 40.5% { opacity: 0.52; } 52.7% { opacity: 0.69; } 60.2% { opacity: 0.60; } 66.6% { opacity: 0.52; } 70.0% { opacity: 0.63; } 79.9% { opacity: 0.60; } 84.2% { opacity: 0.75; } 91.0% { opacity: 0.87; } }
+@keyframes opa { 12.0% { opacity: 0.80; } 19.5% { opacity: 0.88; } 37.2% { opacity: 0.64; } 40.5% { opacity: 0.52; } 52.7% { opacity: 0.69; } 60.2% { opacity: 0.60; } 66.6% { opacity: 0.52; } 70.0% { opacity: 0.63; } 79.9% { opacity: 0.60; } 84.2% { opacity: 0.75; } 91.0% { opacity: 0.87; } }
+
