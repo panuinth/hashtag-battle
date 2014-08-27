@@ -84,9 +84,8 @@ class BattlesController < ApplicationController
 
   def events
     response.headers["Content-Type"] = "text/event-stream"
-    redis = Redis.new
 
-    redis.psubscribe('battle.*') do |on|
+    $redis.psubscribe('battle.*') do |on|
       on.pmessage do |pattern, event, data|
         response.stream.write("event: #{event}\n")
         response.stream.write("data: #{data}\n\n")
@@ -95,7 +94,7 @@ class BattlesController < ApplicationController
   rescue IOError
     logger.info "Stream closed"
   ensure
-    redis.quit
+    $redis.quit
     response.stream.close
   end
 
