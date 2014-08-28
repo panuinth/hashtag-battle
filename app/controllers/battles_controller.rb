@@ -37,19 +37,30 @@ class BattlesController < ApplicationController
       $redis = Redis.new(:host => Rails.application.config.redis_host, :port => Rails.application.config.redis_port, :password => Rails.application.config.redis_password, :thread_safe => true)
 
       #Pull data from twitter streaming api
-      twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
-        #Check if it's a tweet object
-        if object.is_a?(Twitter::Tweet)
-          keywords = []
-          #Iterate hashtags to check if any tweet match
-          @battle.hashtags.each do |hashtag|
-            #Assign to keyword if match
-            if hashtag.match_with_tweet?(object.text)
-              keywords << hashtag.title
+      num_attempts = 0
+      begin
+        num_attempts += 1
+        twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
+          #Check if it's a tweet object
+          if object.is_a?(Twitter::Tweet)
+            keywords = []
+            #Iterate hashtags to check if any tweet match
+            @battle.hashtags.each do |hashtag|
+              #Assign to keyword if match
+              if hashtag.match_with_tweet?(object.text)
+                keywords << hashtag.title
+              end
             end
+            data = {:tweet => "#{object.text}", :total_hashtag => @battle.hashtags.count, :keywords => keywords }
+            $redis.publish("battle:hashtag:#{@battle.id}", data.to_json ) if keywords.count > 0
           end
-          data = {:tweet => "#{object.text}", :total_hashtag => @battle.hashtags.count, :keywords => keywords }
-          $redis.publish("battle:hashtag:#{@battle.id}", data.to_json ) if keywords.count > 0
+        end
+      rescue Twitter::Error::TooManyRequests => error
+        if num_attempts % 3 == 0
+          sleep(15*60) # minutes * 60 seconds
+          retry
+        else
+          retry
         end
       end
     render :json => {:status=>"success"}, :status=>200
