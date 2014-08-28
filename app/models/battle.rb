@@ -2,7 +2,10 @@ class Battle < ActiveRecord::Base
   has_many :hashtags, through: :battle_hashtags
   has_many :battle_hashtags
 
+  validates :name, :presence => true
+
   def add_hashtags(hashtags_input)
+    return false if not hashtags_input.class.eql?(Array)
     hashtags_input.each do |hashtag|
       if Hashtag.exists?(title: hashtag)
         existing_hashtag = Hashtag.where(title: hashtag).first
@@ -17,7 +20,7 @@ class Battle < ActiveRecord::Base
   def hashtags_csv
     result = []
     hashtags.map(&:title).each do |hashtag|
-      result << "%23#{hashtag}"
+      result << "%23#{hashtag.downcase}"
     end
     return result.join(",")
   end

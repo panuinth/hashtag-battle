@@ -6,4 +6,12 @@ class Hashtag < ActiveRecord::Base
     "##{title}"
   end
 
+  def match_with_tweet?(tweet)
+    #Check 3 cases
+    #1. tweet with that hashtag
+    #2. tweet without the hashtag
+    #3. tweet with the hashtag that has no space at the end
+    tweet.downcase.include?(title_with_hashtag) and tweet.downcase.match(/[^#]#{title}/).nil? and tweet.downcase.match(/##{title}[\s]/).nil?
+  end
+
 end

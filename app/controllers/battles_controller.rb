@@ -44,7 +44,9 @@ class BattlesController < ApplicationController
           #Iterate hashtags to check if any tweet match
           @battle.hashtags.each do |hashtag|
             #Assign to keyword if match
-            keywords << hashtag.title if object.text.downcase.include?(hashtag.title_with_hashtag)
+            if hashtag.match_with_tweet?(object.text)
+              keywords << hashtag.title
+            end
           end
           data = {:tweet => "#{object.text}", :total_hashtag => @battle.hashtags.count, :keywords => keywords }
           $redis.publish("battle:hashtag:#{@battle.id}", data.to_json ) if keywords.count > 0
