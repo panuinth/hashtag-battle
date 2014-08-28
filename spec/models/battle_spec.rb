@@ -88,7 +88,7 @@ describe Battle do
     twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
       #Check if it's a tweet object
       if object.is_a?(Twitter::Tweet)
-        expect(object.text.downcase.match(/#coffee[\s]/)).to be nil
+        expect(object.text.downcase.match(/#coffee[\w]/)).to be nil
         break
       end
     end
