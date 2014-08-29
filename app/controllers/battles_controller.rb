@@ -63,6 +63,7 @@ class BattlesController < ApplicationController
                     break
                   else
                     $redis.publish("battle:hashtag:#{@battle.id}", data.to_json )
+                    sleep 1
                   end
 
                 end
