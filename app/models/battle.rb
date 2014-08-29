@@ -18,10 +18,6 @@ class Battle < ActiveRecord::Base
   end
 
   def hashtags_csv
-    result = []
-    hashtags.map(&:title).each do |hashtag|
-      result << "%23#{hashtag.downcase}"
-    end
-    return result.join(",")
+    return hashtags.map(&:title).join(",")
   end
 end

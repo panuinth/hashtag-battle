@@ -37,7 +37,7 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 gem 'pg'
-gem 'twitter'
+#gem 'twitter'
 gem 'redis'
 gem 'puma'
 gem 'designmodo-flatuipro-rails', '~> 1.2.5.0.branch'
@@ -52,3 +52,4 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
 end
+gem 'tweetstream'

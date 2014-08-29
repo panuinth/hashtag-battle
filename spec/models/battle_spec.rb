@@ -2,15 +2,6 @@ require 'spec_helper'
 
 describe Battle do
 
-  def twitter_streaming_client
-    @twitter_streaming_client ||= Twitter::Streaming::Client.new do |config|
-      config.consumer_key        = Rails.application.config.twitter_consumer_key
-      config.consumer_secret     = Rails.application.config.twitter_consumer_secret
-      config.access_token        = Rails.application.config.twitter_access_token
-      config.access_token_secret = Rails.application.config.twitter_access_token_secret
-    end
-  end
-
   before(:each) do
     @valid_name = 'coffee vs tea'
     @valid_hashtags = ['coffee','tea']
@@ -51,46 +42,33 @@ describe Battle do
   end
 
   #Twitter streaming API
-  it 'should get tweet that contain #coffee' do
+  it 'should get tweet that contain coffee' do
     @battle = Battle.create(name: "coffee")
     @battle.add_hashtags(["coffee"])
 
-    twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
-      #Check if it's a tweet object
-      if object.is_a?(Twitter::Tweet)
-        expect(object.text.downcase.include? "#coffee").to be true
-        break
-      end
-    end
-  end
-
-  it 'should not get tweet that contain coffee without hashtag' do
-    @battle = Battle.create(name: "coffee")
-    @battle.add_hashtags(["coffee"])
-    #Sometime twitter has too many connection. Have to delay 5 secs before reconnecting
-    sleep 5
-
-    twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
-      #Check if it's a tweet object
-      if object.is_a?(Twitter::Tweet)
-        expect(object.text.downcase.match(/[^#]coffee/)).to be nil
-        break
+    TweetStream::Client.new.track(@battle.hashtags_csv) do |object, client|
+      if not object.hashtags.blank?
+        object.hashtags.each do |ht|
+          expect(object.text.downcase.include? "#{ht.text.downcase}").to be true
+          client.stop
+          break
+        end
       end
     end
   end
 
   it 'should not get tweet that contain #coffeebuddy' do
-    @battle = Battle.create(name: "coffeebuddy")
-    @battle.add_hashtags(["coffeebuddy"])
-    #Sometime twitter has too many connection. Have to delay 5 secs before reconnecting
-    sleep 5
+    @battle = Battle.create(name: "coffee")
+    @battle.add_hashtags(["coffee"])
 
-    twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
-      #Check if it's a tweet object
-      if object.is_a?(Twitter::Tweet)
-        expect(object.text.downcase.match(/#coffee[\w]/)).to be nil
-        break
-      end
+    TweetStream::Client.new.track(@battle.hashtags_csv) do |object, client|
+       if not object.hashtags.blank?
+        object.hashtags.each do |ht|
+          expect(object.text.downcase.match(/coffee[\w]/)).to be nil
+          client.stop
+          break
+        end
+       end
     end
   end
 

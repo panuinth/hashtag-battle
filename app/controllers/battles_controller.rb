@@ -37,33 +37,60 @@ class BattlesController < ApplicationController
       $redis = Redis.new(:host => Rails.application.config.redis_host, :port => Rails.application.config.redis_port, :password => Rails.application.config.redis_password, :thread_safe => true)
 
       #Pull data from twitter streaming api
-      num_attempts = 0
       begin
-        num_attempts += 1
-        twitter_streaming_client.filter(:track => @battle.hashtags_csv) do |object|
-          #Check if it's a tweet object
-          if object.is_a?(Twitter::Tweet)
-            keywords = []
-            #Iterate hashtags to check if any tweet match
-            @battle.hashtags.each do |hashtag|
-              #Assign to keyword if match
-              if hashtag.match_with_tweet?(object.text)
-                keywords << hashtag.title
+        end_time = (Time.now + 5.minutes)
+
+        logger.info "start calling twitter api"
+        logger.info "'#{@battle.hashtags_csv}'"
+
+        @battle.hashtags.each do |battle_ht|
+          data = {:keyword => "#{battle_ht.title.downcase}", :end_time => end_time }
+          $redis.publish("battle:hashtag:#{@battle.id}", data.to_json )
+          sleep 1
+        end
+
+
+        TweetStream::Client.new.track(@battle.hashtags_csv) do |object, client|
+          logger.info(object.text)
+          logger.info(object.hashtags)
+          logger.info(object.hashtags?)
+
+          if object.hashtags?
+            logger.info(object.text)
+            object.hashtags.each do |ht|
+              puts "ht.text: #{ht.text.downcase}"
+              @battle.hashtags.each do |battle_hashtag|
+                if battle_hashtag.title.downcase == ht.text.downcase
+                  puts "battle_hashtag: #{battle_hashtag.title.downcase}"
+
+                  logger.info "MATCH!!!!"
+                  data = {:keyword => ht.text.downcase, :end_time => end_time }
+
+                  if Time.now > end_time
+                    logger.info "Time's up"
+                    client.stop
+                    $redis.quit
+                    break
+                  else
+                    $redis.publish("battle:hashtag:#{@battle.id}", data.to_json )
+                  end
+
+                end
               end
             end
-            data = {:tweet => "#{object.text}", :total_hashtag => @battle.hashtags.count, :keywords => keywords }
-            $redis.publish("battle:hashtag:#{@battle.id}", data.to_json ) if keywords.count > 0
           end
         end
-      rescue Twitter::Error::TooManyRequests => error
-        if num_attempts % 3 == 0
-          sleep(15*60) # minutes * 60 seconds
-          retry
-        else
-          retry
-        end
+
+
+      rescue => error
+        logger.info "#{error}"
+        render :json => {:status=> "error", :message => "#{error}" }, :status=>500
+        return
+      ensure
+        logger.info "Stopping twitter stream"
+        #$redis.quit
       end
-    render :json => {:status=>"success"}, :status=>200
+      render :json => {:status=>"success", :message => "done"}, :status=>200
     else
       render :json => {:status=> :unprocessable_entity, :error => @battle.errors }, :status=>422
     end
@@ -98,31 +125,50 @@ class BattlesController < ApplicationController
     response.headers["Content-Type"] = "text/event-stream"
 
     $redis = Redis.new(:host => Rails.application.config.redis_host, :port => Rails.application.config.redis_port, :password => Rails.application.config.redis_password, :thread_safe => true)
+    logger.info "New stream starting, connecting to redis"
 
-    $redis.psubscribe("battle:hashtag:*") do |on|
-      on.pmessage do |pattern, event, data|
-        response.stream.write("event: #{event}\n")
-        response.stream.write("data: #{data}\n\n")
-        sleep 0.0001 # HACK: Prevent server instance from sleeping forever if client disconnects
+    #ticker = Thread.new { loop { response.stream.write "hearbeat"; sleep 5 } }
+    #sender = Thread.new do
+      $redis.psubscribe("battle:hashtag:*") do |on|
+        on.pmessage do |pattern, event, data|
+
+          response.stream.write("event: #{event}\n")
+          response.stream.write("data: #{data}\n\n")
+
+
+          #if event == 'heartbeat'
+            #response.stream.write("event: heartbeat\ndata: heartbeat\n\n")
+          #else
+            #response.stream.write("event: #{event}\n")
+            #response.stream.write("data: #{data}\n\n")
+          #end
+
+          sleep 0.0001 # HACK: Prevent server instance from sleeping forever if client disconnects
+        end
       end
-    end
+    #end
+    #ticker.join
+    #sender.join
   rescue IOError
     logger.info "Stream closed"
   ensure
+    logger.info "Stopping stream thread"
+    #Thread.kill(ticker) if ticker
+    #Thread.kill(sender) if sender
     $redis.quit
     response.stream.close
   end
 
 
 
-private
-# Use callbacks to share common setup or constraints between actions.
-def set_battle
-  @battle = Battle.find(params[:id])
-end
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_battle
+    @battle = Battle.find(params[:id])
+  end
 
-# Never trust parameters from the scary internet, only allow the white list through.
-def battle_params
-  params.require(:battle).permit(:name,:hashtags)
-end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def battle_params
+    params.require(:battle).permit(:name,:hashtags)
+  end
 end
