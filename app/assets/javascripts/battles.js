@@ -69,7 +69,7 @@ $(function() {
       })
       .fail(function( data,status ) {
         if (status == "error"){
-          alert("Sorry, something went wrong. Please try it again in 5 minutes.");
+          //alert("Sorry, something went wrong. Please try it again in 5 minutes.");
         }
       });
     }
