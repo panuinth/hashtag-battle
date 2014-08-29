@@ -47,28 +47,13 @@ describe Battle do
     @battle.add_hashtags(["coffee"])
 
     TweetStream::Client.new.track(@battle.hashtags_csv) do |object, client|
-      if not object.hashtags.blank?
+      if not object.hashtags?
         object.hashtags.each do |ht|
           expect(object.text.downcase.include? "#{ht.text.downcase}").to be true
           client.stop
           break
         end
       end
-    end
-  end
-
-  it 'should not get tweet that contain #coffeebuddy' do
-    @battle = Battle.create(name: "coffee")
-    @battle.add_hashtags(["coffee"])
-
-    TweetStream::Client.new.track(@battle.hashtags_csv) do |object, client|
-       if not object.hashtags.blank?
-        object.hashtags.each do |ht|
-          expect(object.text.downcase.match(/coffee[\w]/)).to be nil
-          client.stop
-          break
-        end
-       end
     end
   end
 

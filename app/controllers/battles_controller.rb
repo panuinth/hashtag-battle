@@ -40,32 +40,22 @@ class BattlesController < ApplicationController
       begin
         end_time = (Time.now + 5.minutes)
 
-        logger.info "start calling twitter api"
-        logger.info "'#{@battle.hashtags_csv}'"
-
         @battle.hashtags.each do |battle_ht|
           data = {:keyword => "#{battle_ht.title.downcase}", :end_time => end_time }
           $redis.publish("battle:hashtag:#{@battle.id}", data.to_json )
           sleep 1
         end
 
-
         TweetStream::Client.new.track(@battle.hashtags_csv) do |object, client|
-          logger.info(object.text)
-          logger.info(object.hashtags)
-          logger.info(object.hashtags?)
 
           if object.hashtags?
-            logger.info(object.text)
             object.hashtags.each do |ht|
-              puts "ht.text: #{ht.text.downcase}"
               @battle.hashtags.each do |battle_hashtag|
                 if battle_hashtag.title.downcase == ht.text.downcase
-                  puts "battle_hashtag: #{battle_hashtag.title.downcase}"
 
-                  logger.info "MATCH!!!!"
                   data = {:keyword => ht.text.downcase, :end_time => end_time }
 
+                  #Check time left
                   if Time.now > end_time
                     logger.info "Time's up"
                     client.stop
@@ -84,10 +74,10 @@ class BattlesController < ApplicationController
 
       rescue => error
         logger.info "#{error}"
-        render :json => {:status=> "error", :message => "#{error}" }, :status=>500
-        return
+        #render :json => {:status=> "error", :message => "#{error}" }, :status=>500
+        #return
       ensure
-        logger.info "Stopping twitter stream"
+        #logger.info "Stopping twitter stream"
         #$redis.quit
       end
       render :json => {:status=>"success", :message => "done"}, :status=>200

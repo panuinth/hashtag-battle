@@ -93,8 +93,6 @@ $(function() {
       alert('Battle done! Please close your browser.');
     });
 
-    console.debug(result.keyword);
-
     var keywordTitle = $("#freewall").find("div#"+ result.keyword +"");
     if (keywordTitle.length > 0) {
       keywordTitle.parent().css({ opacity: 0.1 });
